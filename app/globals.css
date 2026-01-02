@@ -1,26 +1,29 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Nos couleurs Océan du Nord */
+  --color-primary: #064e3b; /* Vert foncé */
+  --color-primary-light: #10b981; /* Vert clair */
+  --color-secondary: #f59e0b; /* Jaune Or */
+  --color-accent: #dc2626; /* Rouge */
+
+  --color-bg-soft: #f8fafc;
+
+  /* Police */
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+
+  /* Animations personnalisées */
+  --animate-spin-slow: spin 3s linear infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
+/* Reset de base */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg-soft);
+  color: #1e293b;
 }
