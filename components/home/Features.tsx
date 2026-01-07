@@ -63,7 +63,7 @@ export default function Features() {
           {/* Partie Droite : Image/Vidéo */}
           <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
             <Image
-              src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop"
+              src="/images/bus-03.webp"
               alt="Confort Océan du Nord"
               fill
               className="object-cover"

@@ -1,3 +1,87 @@
+// // prisma/seed.ts
+// import { PrismaClient } from "@prisma/client";
+// import "dotenv/config";
+
+// // --- INITIALISATION SIMPLE (OBLIGATOIRE POUR SQLITE) ---
+// const prisma = new PrismaClient();
+
+// async function main() {
+//   console.log("🚀 Démarrage du seed SQLite...");
+
+//   // 1. Nettoyage
+//   try {
+//     await prisma.passenger.deleteMany();
+//     await prisma.booking.deleteMany();
+//     await prisma.trip.deleteMany();
+//     await prisma.bus.deleteMany();
+//     await prisma.route.deleteMany();
+//     console.log("🧹 Base nettoyée.");
+//   } catch (e) {
+//     console.log("⚠️ Table vide ou inexistante, on continue...");
+//   }
+
+//   // 2. Création des Bus (Features en String simple)
+//   const buses = await Promise.all([
+//     prisma.bus.create({
+//       data: {
+//         name: "Yutong F1",
+//         plateNumber: "BZ-450-AA",
+//         type: "VIP",
+//         capacity: 50,
+//         features: "AC, Wifi, TV", // String simple
+//       },
+//     }),
+//     prisma.bus.create({
+//       data: {
+//         name: "Coaster C1",
+//         plateNumber: "PN-202-BB",
+//         type: "Standard",
+//         capacity: 30,
+//         features: "AC",
+//       },
+//     }),
+//   ]);
+//   console.log(`🚌 ${buses.length} Bus créés.`);
+
+//   // 3. Création des Routes
+//   const route = await prisma.route.create({
+//     data: {
+//       fromCity: "Brazzaville",
+//       toCity: "Pointe-Noire",
+//       distance: 510,
+//       duration: "8h 30m",
+//       priceAdult: 9000,
+//       priceChild: 9000,
+//     },
+//   });
+//   console.log(`📍 Route créée: ${route.fromCity} -> ${route.toCity}`);
+
+//   // 4. Création d'un Voyage (Trip)
+//   const today = new Date();
+//   today.setHours(7, 0, 0, 0); // Départ à 7h00
+
+//   await prisma.trip.create({
+//     data: {
+//       date: today,
+//       status: "SCHEDULED",
+//       routeId: route.id,
+//       busId: buses[0].id,
+//     },
+//   });
+
+//   console.log("📅 Voyage de test créé pour aujourd'hui.");
+//   console.log("✨ Seeding terminé !");
+// }
+
+// main()
+//   .catch((e) => {
+//     console.error(e);
+//     process.exit(1);
+//   })
+//   .finally(async () => {
+//     await prisma.$disconnect();
+//   });
+
 // prisma/seed.ts
 import { PrismaClient } from "@/app/generated/prisma/client"; // Ton chemin personnalisé
 import { PrismaPg } from "@prisma/adapter-pg";

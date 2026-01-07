@@ -3,6 +3,7 @@ import Hero from "@/components/home/Hero";
 import PopularRoutes from "@/components/home/PopularRoutes";
 import OurServices from "@/components/home/OurServices";
 import Features from "@/components/home/Features";
+import VideoSection from "@/components/home/VideoSection";
 import LatestNews from "@/components/home/LatestNews";
 import Partners from "@/components/home/Partners";
 
@@ -12,6 +13,7 @@ export default function Home() {
       <Hero />
       <PopularRoutes />
       <Features />
+      <VideoSection />
       <OurServices />
       <LatestNews />
       <Partners />

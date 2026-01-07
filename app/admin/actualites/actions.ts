@@ -1,3 +1,4 @@
+// app/admin/actualites/actions.ts
 "use server";
 
 import prisma from "@/lib/prisma";
@@ -8,17 +9,27 @@ export async function createArticle(formData: FormData) {
   const category = formData.get("category") as string;
   const content = formData.get("content") as string;
   const author = formData.get("author") as string;
-  const image = formData.get("image") as string; // Plus tard on gérera l'upload réel
-  const isFeatured = formData.get("isFeatured") === "on";
+  const image = formData.get("image") as string;
+  const isFeatured = formData.get("isFeatured") === "true";
 
   // Génération automatique du slug à partir du titre
   const slug = title
     .toLowerCase()
-    .replace(/[^\w ]+/g, '')
-    .replace(/ +/g, '-');
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Supprime les accents
+    .replace(/[^\w ]+/g, "")
+    .replace(/ +/g, "-");
 
   await prisma.article.create({
-    data: { title, slug, category, content, author, image, isFeatured }
+    data: {
+      title,
+      slug,
+      category,
+      content,
+      author,
+      image: image || null, // Stocke null si pas d'image
+      isFeatured,
+    },
   });
 
   revalidatePath("/actualites");
@@ -37,17 +48,27 @@ export async function updateArticle(id: string, formData: FormData) {
   const content = formData.get("content") as string;
   const author = formData.get("author") as string;
   const image = formData.get("image") as string;
-  const isFeatured = formData.get("isFeatured") === "on";
+  const isFeatured = formData.get("isFeatured") === "true";
 
   // Génération automatique du slug à partir du titre
   const slug = title
     .toLowerCase()
-    .replace(/[^\w ]+/g, '')
-    .replace(/ +/g, '-');
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Supprime les accents
+    .replace(/[^\w ]+/g, "")
+    .replace(/ +/g, "-");
 
   await prisma.article.update({
     where: { id },
-    data: { title, slug, category, content, author, image, isFeatured }
+    data: {
+      title,
+      slug,
+      category,
+      content,
+      author,
+      image: image || null, // Stocke null si pas d'image
+      isFeatured,
+    },
   });
 
   revalidatePath("/actualites");

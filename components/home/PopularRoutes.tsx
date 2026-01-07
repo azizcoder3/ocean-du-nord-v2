@@ -13,6 +13,7 @@ interface Route {
   priceAdult: number;
   priceChild: number;
   duration: string;
+  image?: string | null;
 }
 
 export default function PopularRoutes() {
@@ -24,8 +25,14 @@ export default function PopularRoutes() {
       try {
         const res = await fetch("/api/routes"); // Ton API backend
         const data = await res.json();
-        // On ne prend que les 4 premières pour l'accueil
-        setRoutes(data.slice(0, 4));
+        // Vérifier si data est un tableau avant de slicer
+        if (Array.isArray(data)) {
+          // On ne prend que les 4 premières pour l'accueil
+          setRoutes(data.slice(0, 8));
+        } else {
+          console.error("Données reçues ne sont pas un tableau:", data);
+          setRoutes([]);
+        }
       } catch (e) {
         console.error("Erreur chargement routes accueil", e);
       } finally {
@@ -73,7 +80,7 @@ export default function PopularRoutes() {
             >
               <div className="relative h-48 w-full overflow-hidden">
                 <Image
-                  src={getImage(route.toCity)}
+                  src={route.image || getImage(route.toCity)}
                   alt={route.toCity}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -99,7 +106,9 @@ export default function PopularRoutes() {
                   <div className="flex items-center gap-1.5 font-bold text-secondary">
                     <Clock className="w-4 h-4" /> {route.duration}
                   </div>
-                  <span>Départs quotidiens</span>
+                  <span className="flex items-center gap-1">
+                    <Users className="w-4 h-4" /> Départs quotidiens
+                  </span>
                 </div>
 
                 <Link

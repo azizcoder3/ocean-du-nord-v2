@@ -55,6 +55,8 @@ model Route {
   duration      String
   priceAdult    Int
   priceChild    Int
+  image         String?
+  details       Json?
   trips         Trip[]
 }
 

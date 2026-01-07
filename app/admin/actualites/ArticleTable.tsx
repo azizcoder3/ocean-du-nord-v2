@@ -1,3 +1,4 @@
+// app/admin/actualites/ArticleTable.tsx
 "use client";
 
 import { useState } from "react";
@@ -23,13 +24,21 @@ interface ArticleTableProps {
   articles: ArticleData[];
 }
 
-export default function ArticleTable({ articles: initialArticles }: ArticleTableProps) {
+export default function ArticleTable({
+  articles: initialArticles,
+}: ArticleTableProps) {
   const [articles, setArticles] = useState(initialArticles);
-  const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; articleId: string | null }>({
+  const [deleteModal, setDeleteModal] = useState<{
+    isOpen: boolean;
+    articleId: string | null;
+  }>({
     isOpen: false,
     articleId: null,
   });
-  const [editModal, setEditModal] = useState<{ isOpen: boolean; article: ArticleData | null }>({
+  const [editModal, setEditModal] = useState<{
+    isOpen: boolean;
+    article: ArticleData | null;
+  }>({
     isOpen: false,
     article: null,
   });
@@ -68,7 +77,10 @@ export default function ArticleTable({ articles: initialArticles }: ArticleTable
     } catch (error) {
       console.error("Erreur lors de la suppression:", error);
       toast.error("Erreur lors de la suppression", {
-        description: error instanceof Error ? error.message : "Une erreur est survenue lors de la suppression de l'article.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Une erreur est survenue lors de la suppression de l'article.",
       });
     } finally {
       setIsDeleting((prev) => ({ ...prev, [articleId]: false }));
@@ -105,7 +117,10 @@ export default function ArticleTable({ articles: initialArticles }: ArticleTable
     } catch (error) {
       console.error("Erreur lors de la mise à jour:", error);
       toast.error("Erreur lors de la mise à jour", {
-        description: error instanceof Error ? error.message : "Une erreur est survenue lors de la mise à jour de l'article.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Une erreur est survenue lors de la mise à jour de l'article.",
       });
     } finally {
       setIsEditing((prev) => ({ ...prev, [articleId]: false }));
@@ -136,7 +151,9 @@ export default function ArticleTable({ articles: initialArticles }: ArticleTable
                     <div className="p-2 bg-gray-100 rounded-lg text-gray-400 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                       <FileText className="w-5 h-5" />
                     </div>
-                    <span className="font-bold text-gray-900">{article.title}</span>
+                    <span className="font-bold text-gray-900">
+                      {article.title}
+                    </span>
                     {article.isFeatured && (
                       <div className="relative group">
                         <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
@@ -179,7 +196,9 @@ export default function ArticleTable({ articles: initialArticles }: ArticleTable
                       <Trash2 className="w-4 h-4" />
                     </button>
                     {isDeleting[article.id] && (
-                      <span className="text-xs text-gray-400 self-center">Suppression...</span>
+                      <span className="text-xs text-gray-400 self-center">
+                        Suppression...
+                      </span>
                     )}
                   </div>
                 </td>
@@ -203,7 +222,9 @@ export default function ArticleTable({ articles: initialArticles }: ArticleTable
         onConfirm={handleDelete}
         title="Supprimer l'article"
         message="Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible et supprimera définitivement toutes les données associées."
-        isLoading={deleteModal.articleId ? isDeleting[deleteModal.articleId] : false}
+        isLoading={
+          deleteModal.articleId ? isDeleting[deleteModal.articleId] : false
+        }
       />
 
       {/* Modal d'édition d'article */}

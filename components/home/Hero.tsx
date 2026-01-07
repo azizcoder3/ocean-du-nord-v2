@@ -1,4 +1,5 @@
-"use client"; // Indispensable car un slider utilise du JavaScript côté navigateur
+// components/home/Hero.tsx
+"use client";
 
 import Image from "next/image";
 import { MapPin, Calendar, Search } from "lucide-react";
@@ -7,35 +8,41 @@ import { Autoplay, EffectFade } from "swiper/modules";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-// Import des styles CSS de Swiper
 import "swiper/css";
 import "swiper/css/effect-fade";
 
-// Liste des images pour le slider
+// ✅ Fonction utilitaire pour obtenir la date locale au format YYYY-MM-DD
+function getLocalDateString(): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 const SLIDES = [
   {
     id: 1,
-    image:
-      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop",
+    image: "/images/bus-01.webp",
     alt: "Route du Nord Congo",
     title: "Découvrez le Congo",
     subtitle: "en toute sécurité",
+    position: "object-[center_5%]",
   },
   {
     id: 2,
-    image:
-      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop", // Image voyage/bus
+    image: "/images/bus-02.webp",
     alt: "Voyage en bus confort",
     title: "Le confort absolu",
     subtitle: "à petit prix",
   },
   {
     id: 3,
-    image:
-      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070&auto=format&fit=crop", // Paysage nature
+    image: "/images/bg-ocean.webp",
     alt: "Destination Nature",
     title: "Plus de 20 destinations",
     subtitle: "à travers le pays",
+    position: "object-[center_60%]",
   },
 ];
 
@@ -43,18 +50,31 @@ export default function Hero() {
   const router = useRouter();
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  const [date, setDate] = useState("");
+  // ✅ CORRECTION: Initialiser avec la date du jour en local
+  const [date, setDate] = useState(getLocalDateString());
 
   const handleSearch = () => {
-    if (!from || !to || !date) {
-        alert("Veuillez remplir tous les champs de recherche");
-        return;
+    // ✅ CORRECTION: Validation améliorée avec vérification de la date
+    if (!from || !to) {
+      alert("Veuillez remplir les villes de départ et d'arrivée");
+      return;
     }
+
+    // ✅ Si la date est vide (ne devrait pas arriver), utiliser la date du jour
+    const searchDate = date || getLocalDateString();
+
+    console.log("🔍 Recherche depuis Hero:", { from, to, date: searchDate });
+
     // Redirection vers /booking avec les paramètres de recherche
-    router.push(`/booking?from=${from}&to=${to}&date=${date}`);
+    router.push(
+      `/booking?from=${encodeURIComponent(from)}&to=${encodeURIComponent(
+        to
+      )}&date=${searchDate}`
+    );
   };
+
   return (
-    <section className="relative h-[85vh] min-h-[600px] flex flex-col justify-center items-center overflow-hidden">
+    <section className="relative h-[75vh] min-h-150 flex flex-col justify-center items-center overflow-hidden">
       {/* 1. SLIDER D'ARRIÈRE-PLAN */}
       <div className="absolute inset-0 z-0">
         <Swiper
@@ -63,7 +83,7 @@ export default function Hero() {
           spaceBetween={0}
           slidesPerView={1}
           autoplay={{
-            delay: 5000, // Change toutes les 5 secondes
+            delay: 5000,
             disableOnInteraction: false,
           }}
           loop={true}
@@ -75,17 +95,16 @@ export default function Hero() {
                 src={slide.image}
                 alt={slide.alt}
                 fill
-                className="object-cover"
-                priority={slide.id === 1} // Charge la 1ère image en priorité
+                className={`object-cover ${slide.position || "object-center"}`}
+                priority={slide.id === 1}
               />
-              {/* Filtre sombre par dessus chaque image pour la lisibilité */}
-              <div className="absolute inset-0 bg-black/40 bg-gradient-to-b from-black/60 via-transparent to-black/30" />
+              <div className="absolute inset-0 bg-black/20 bg-linear-to-b from-black/50 via-transparent to-black/20" />
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
 
-      {/* 2. CONTENU TEXTE (Fixe par dessus le slider) */}
+      {/* 2. CONTENU TEXTE */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto mb-12 animate-fade-in-up">
         <span className="inline-block py-1 px-3 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm font-medium mb-4 shadow-sm">
           👋 Mbote ! Bienvenue sur Océan du Nord
@@ -114,8 +133,8 @@ export default function Hero() {
                   Départ
                 </label>
                 <input
-                  type="text" 
-                  placeholder="Ex: Brazzaville" 
+                  type="text"
+                  placeholder="Ex: Brazzaville"
                   value={from}
                   onChange={(e) => setFrom(e.target.value)}
                   className="bg-transparent border-none outline-none text-gray-900 font-bold placeholder-gray-300 text-sm w-full p-0"
@@ -133,8 +152,8 @@ export default function Hero() {
                   Arrivée
                 </label>
                 <input
-                  type="text" 
-                  placeholder="Ex: Pointe-Noire" 
+                  type="text"
+                  placeholder="Ex: Pointe-Noire"
                   value={to}
                   onChange={(e) => setTo(e.target.value)}
                   className="bg-transparent border-none outline-none text-gray-900 font-bold placeholder-gray-300 text-sm w-full p-0"
@@ -152,7 +171,7 @@ export default function Hero() {
                   Date
                 </label>
                 <input
-                  type="date" 
+                  type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                   className="bg-transparent border-none outline-none text-gray-900 font-bold text-sm w-full p-0 cursor-pointer"
@@ -163,7 +182,10 @@ export default function Hero() {
 
           {/* Bouton Rechercher */}
           <div className="md:col-span-3 h-full">
-            <button onClick={handleSearch} className="w-full h-full min-h-[56px] bg-secondary hover:bg-amber-500 text-white font-bold rounded-xl shadow-lg shadow-secondary/30 flex items-center justify-center gap-2 transition-transform hover:scale-[1.02] active:scale-95 text-lg">
+            <button
+              onClick={handleSearch}
+              className="w-full h-full min-h-14 bg-secondary hover:bg-amber-500 text-white font-bold rounded-xl shadow-lg shadow-secondary/30 flex items-center justify-center gap-2 transition-transform hover:scale-[1.02] active:scale-95 text-lg"
+            >
               <Search className="w-5 h-5" />
               <span>Rechercher</span>
             </button>

@@ -1,3 +1,4 @@
+// components/booking/BusResultCard.tsx
 import Image from "next/image";
 import Link from "next/link"; // <--- LA CORRECTION EST ICI (next/link et pas lucide-react)
 import { Clock, Wifi, Coffee, Tv, Armchair } from "lucide-react";
@@ -28,9 +29,9 @@ export default function BusResultCard({
   return (
     <div className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow border border-gray-100 flex flex-col md:flex-row gap-6 items-center">
       {/* 1. IMAGE & TYPE */}
-      <div className="relative w-full md:w-48 h-40 flex-shrink-0 rounded-xl overflow-hidden group">
+      <div className="relative w-full md:w-48 h-40 shrink-0 rounded-xl overflow-hidden group">
         <Image
-          src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=2071&auto=format&fit=crop"
+          src="/images/bus-08.webp"
           alt="Bus Océan du Nord"
           fill
           className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -62,7 +63,7 @@ export default function BusResultCard({
 
         {/* Ligne visuelle */}
         <div className="relative flex items-center mb-6">
-          <div className="h-[2px] w-full bg-gray-200 rounded-full"></div>
+          <div className="h-0.5 w-full bg-gray-200 rounded-full"></div>
           <div className="absolute left-0 w-3 h-3 bg-primary rounded-full border-2 border-white shadow-sm"></div>
           <div className="absolute right-0 w-3 h-3 bg-secondary rounded-full border-2 border-white shadow-sm"></div>
           <div className="absolute left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-300 rounded-full"></div>
@@ -97,7 +98,7 @@ export default function BusResultCard({
       </div>
 
       {/* 3. PRIX & ACTION */}
-      <div className="w-full md:w-auto flex flex-col items-center md:items-end justify-between gap-4 pl-0 md:pl-6 md:border-l border-gray-100 min-w-[160px]">
+      <div className="w-full md:w-auto flex flex-col items-center md:items-end justify-between gap-4 pl-0 md:pl-6 md:border-l border-gray-100 min-w-40">
         {/* Affichage des deux prix */}
         <div className="text-center md:text-right w-full space-y-1">
           <div className="flex justify-between md:justify-end items-baseline gap-2">

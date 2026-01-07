@@ -15,6 +15,7 @@ interface RouteData {
   priceChild: number;
   duration: string;
   distance: number;
+  image?: string | null;
 }
 
 interface RouteTableProps {
@@ -23,11 +24,17 @@ interface RouteTableProps {
 
 export default function RouteTable({ routes: initialRoutes }: RouteTableProps) {
   const [routes, setRoutes] = useState(initialRoutes);
-  const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; routeId: string | null }>({
+  const [deleteModal, setDeleteModal] = useState<{
+    isOpen: boolean;
+    routeId: string | null;
+  }>({
     isOpen: false,
     routeId: null,
   });
-  const [editModal, setEditModal] = useState<{ isOpen: boolean; route: RouteData | null }>({
+  const [editModal, setEditModal] = useState<{
+    isOpen: boolean;
+    route: RouteData | null;
+  }>({
     isOpen: false,
     route: null,
   });
@@ -66,21 +73,27 @@ export default function RouteTable({ routes: initialRoutes }: RouteTableProps) {
     } catch (error) {
       console.error("Erreur lors de la suppression:", error);
       toast.error("Erreur lors de la suppression", {
-        description: error instanceof Error ? error.message : "Une erreur est survenue lors de la suppression de la ligne.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Une erreur est survenue lors de la suppression de la ligne.",
       });
     } finally {
       setIsDeleting((prev) => ({ ...prev, [routeId]: false }));
     }
   };
 
-  const handleUpdate = async (id: string, data: {
-    fromCity: string;
-    toCity: string;
-    priceAdult: number;
-    priceChild: number;
-    duration: string;
-    distance: number
-  }) => {
+  const handleUpdate = async (
+    id: string,
+    data: {
+      fromCity: string;
+      toCity: string;
+      priceAdult: number;
+      priceChild: number;
+      duration: string;
+      distance: number;
+    }
+  ) => {
     setIsUpdating((prev) => ({ ...prev, [id]: true }));
     try {
       await updateRoute(id, data);
@@ -94,7 +107,10 @@ export default function RouteTable({ routes: initialRoutes }: RouteTableProps) {
     } catch (error) {
       console.error("Erreur lors de la mise à jour:", error);
       toast.error("Erreur lors de la mise à jour", {
-        description: error instanceof Error ? error.message : "Une erreur est survenue lors de la modification de la ligne.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Une erreur est survenue lors de la modification de la ligne.",
       });
     } finally {
       setIsUpdating((prev) => ({ ...prev, [id]: false }));
@@ -126,7 +142,9 @@ export default function RouteTable({ routes: initialRoutes }: RouteTableProps) {
                     <div className="p-2 bg-gray-100 rounded-lg text-gray-400 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                       <MapPin className="w-5 h-5" />
                     </div>
-                    <span className="font-bold text-gray-900">{route.fromCity} ➔ {route.toCity}</span>
+                    <span className="font-bold text-gray-900">
+                      {route.fromCity} ➔ {route.toCity}
+                    </span>
                   </div>
                 </td>
                 <td className="px-6 py-4 text-primary font-bold">
@@ -162,7 +180,9 @@ export default function RouteTable({ routes: initialRoutes }: RouteTableProps) {
                       <Trash2 className="w-4 h-4" />
                     </button>
                     {isDeleting[route.id] && (
-                      <span className="text-xs text-gray-400 self-center">Suppression...</span>
+                      <span className="text-xs text-gray-400 self-center">
+                        Suppression...
+                      </span>
                     )}
                   </div>
                 </td>
@@ -186,7 +206,9 @@ export default function RouteTable({ routes: initialRoutes }: RouteTableProps) {
         onConfirm={handleDelete}
         title="Supprimer la ligne"
         message="Êtes-vous sûr de vouloir supprimer cette ligne ? Cette action est irréversible et supprimera définitivement toutes les données associées à cette ligne."
-        isLoading={deleteModal.routeId ? isDeleting[deleteModal.routeId] : false}
+        isLoading={
+          deleteModal.routeId ? isDeleting[deleteModal.routeId] : false
+        }
       />
 
       {/* Modal d'édition */}

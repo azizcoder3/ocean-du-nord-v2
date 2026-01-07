@@ -3,6 +3,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   Search,
   MapPin,
@@ -374,9 +375,9 @@ export default function AgencesPage() {
 
   // --- 2. LOGIQUE DE PAGINATION ---
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Nombre d'agences par page
+  const itemsPerPage = 10;
 
-  // A. Filtrer d'abord
+  // A. Filtrer
   const filteredAgencies = ALL_AGENCIES.filter((agency) => {
     const matchesSearch =
       agency.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -385,7 +386,7 @@ export default function AgencesPage() {
     return matchesSearch && matchesAxis;
   });
 
-  // B. Calculer la pagination sur les résultats filtrés
+  // B. Pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredAgencies.slice(
@@ -394,14 +395,12 @@ export default function AgencesPage() {
   );
   const totalPages = Math.ceil(filteredAgencies.length / itemsPerPage);
 
-  // Fonction pour changer de page
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  // Reset pagination si on change de filtre
   const handleFilterChange = (filterType: string, value: string) => {
-    setCurrentPage(1); // Retour page 1
+    setCurrentPage(1);
     if (filterType === "search") setSearchTerm(value);
-    // @ts-expect-error - string value needs to match "Tous" | "Nord" | "Sud" type
+    // @ts-expect-error - value type checking
     if (filterType === "axis") setSelectedAxis(value);
   };
 
@@ -422,7 +421,7 @@ export default function AgencesPage() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors" />
                 <input
                   type="text"
-                  placeholder="Rechercher une agence, une ville..."
+                  placeholder="Rechercher une agence..."
                   className="w-full pl-10 pr-4 py-2.5 bg-gray-100 border border-transparent rounded-lg focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all"
                   value={searchTerm}
                   onChange={(e) => handleFilterChange("search", e.target.value)}
@@ -444,26 +443,90 @@ export default function AgencesPage() {
         </div>
       </div>
 
-      {/* 2. CONTENU PRINCIPAL (Split View) */}
+      {/* 2. CONTENU PRINCIPAL */}
       <div className="flex-1 flex overflow-hidden">
-        {/* COLONNE GAUCHE : LISTE AVEC PAGINATION */}
+        {/* LISTE */}
         <div className="w-full lg:w-[55%] xl:w-[50%] p-4 sm:p-6 lg:p-8 overflow-y-auto h-[calc(100vh-140px)] custom-scrollbar flex flex-col">
-          {/* Grille des cartes */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {currentItems.map((agency) => (
+              // <div
+              //   key={agency.id}
+              //   className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md hover:border-primary/30 transition-all group flex flex-col justify-between h-full"
+              // >
+              //   <div>
+              //     <div className="flex justify-between items-start mb-4">
+              //       <div className="flex items-center gap-3">
+              //         <div className="w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center text-primary font-bold text-lg border border-primary/10">
+              //           {agency.name.charAt(0)}
+              //         </div>
+              //         <div>
+              //           <h3 className="font-bold text-gray-900 group-hover:text-primary transition-colors line-clamp-1">
+              //             {agency.name}
+              //           </h3>
+              //           <span
+              //             className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${
+              //               agency.axis === "Nord"
+              //                 ? "bg-blue-50 text-blue-600"
+              //                 : "bg-orange-50 text-orange-600"
+              //             }`}
+              //           >
+              //             Axe {agency.axis}
+              //           </span>
+              //         </div>
+              //       </div>
+              //     </div>
+
+              //     <div className="space-y-3 text-sm text-gray-600 mb-6">
+              //       <div className="flex gap-2">
+              //         <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
+              //         <span className="line-clamp-2">
+              //           {agency.address} -{" "}
+              //           <strong className="text-gray-900">{agency.city}</strong>
+              //         </span>
+              //       </div>
+              //       <div className="flex items-center gap-2">
+              //         <Phone className="w-4 h-4 text-gray-400" />
+              //         <span className="font-mono">{agency.phone}</span>
+              //       </div>
+              //     </div>
+              //   </div>
+
+              //   {/* --- C'EST ICI QUE LES BOUTONS SONT CORRIGÉS --- */}
+              //   <div className="flex gap-2 mt-auto">
+              //     {/* Lien vers tarifs */}
+              //     <Link
+              //       href="/tarifs"
+              //       className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-primary hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-colors"
+              //     >
+              //       <FileText className="w-3 h-3" />
+              //       Grille Tarifaire
+              //     </Link>
+
+              //     {/* Lien Google Maps */}
+              //     <a
+              //       href={`https://www.google.com/maps/search/Agence+Océan+du+Nord+${agency.name}+${agency.city}`}
+              //       target="_blank"
+              //       rel="noopener noreferrer"
+              //       className="px-3 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg transition-colors"
+              //       title="Voir sur la carte"
+              //     >
+              //       <Navigation className="w-4 h-4" />
+              //     </a>
+              //   </div>
+              // </div>
+
               <div
                 key={agency.id}
-                className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md hover:border-primary/30 transition-all group flex flex-col justify-between h-full animate-fade-in"
+                className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all flex flex-col justify-between h-full"
               >
                 <div>
-                  {/* En-tête Carte */}
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center text-primary font-bold text-lg border border-primary/10">
                         {agency.name.charAt(0)}
                       </div>
                       <div>
-                        <h3 className="font-bold text-gray-900 group-hover:text-primary transition-colors line-clamp-1">
+                        <h3 className="font-bold text-gray-900 line-clamp-1">
                           {agency.name}
                         </h3>
                         <span
@@ -479,7 +542,6 @@ export default function AgencesPage() {
                     </div>
                   </div>
 
-                  {/* Infos */}
                   <div className="space-y-3 text-sm text-gray-600 mb-6">
                     <div className="flex gap-2">
                       <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
@@ -490,83 +552,56 @@ export default function AgencesPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <Phone className="w-4 h-4 text-gray-400" />
-                      <span className="font-mono">{agency.phone}</span>
+                      <span className="font-mono font-bold text-gray-700">
+                        {agency.phone}
+                      </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Actions */}
-                <div className="flex gap-2 mt-auto">
-                  <button className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-primary hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-colors">
-                    <FileText className="w-3 h-3" />
-                    Grille Tarifaire
-                  </button>
-                  <button
-                    className="px-3 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg transition-colors"
-                    title="Voir sur la carte"
+                {/* --- ZONE BOUTONS CORRIGÉE --- */}
+                <div className="flex gap-3 mt-auto">
+                  {/* Lien Tarifs */}
+                  <Link
+                    href="/ocean-du-nord/tarifs"
+                    className="flex-1 flex items-center justify-center gap-2 py-3 bg-secondary hover:bg-amber-600 text-white rounded-xl text-sm font-bold transition-all shadow-sm active:scale-95"
+                  >
+                    <FileText className="w-4 h-4" />
+                    <span>Grille Tarifaire</span>
+                  </Link>
+
+                  {/* Lien Google Maps */}
+                  <a
+                    href={`https://www.google.com/maps/search/Agence+Océan+du+Nord+${agency.name}+${agency.city}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-xl transition-colors border border-gray-200"
+                    title="Ouvrir la localisation GPS"
                   >
                     <Navigation className="w-4 h-4" />
-                  </button>
+                  </a>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Message vide */}
-          {filteredAgencies.length === 0 && (
-            <div className="text-center py-20">
-              <p className="text-gray-500">
-                Aucune agence trouvée pour cette recherche.
-              </p>
-              <button
-                onClick={() => {
-                  setSearchTerm("");
-                  setSelectedAxis("Tous");
-                }}
-                className="text-secondary font-bold hover:underline mt-2"
-              >
-                Réinitialiser les filtres
-              </button>
-            </div>
-          )}
-
-          {/* --- PAGINATION (En bas de liste) --- */}
+          {/* Pagination (Identique à avant) */}
           {filteredAgencies.length > itemsPerPage && (
             <div className="mt-auto pt-6 border-t border-gray-100 flex justify-center items-center gap-2">
-              {/* Bouton Précédent */}
               <button
                 onClick={() => paginate(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <ChevronLeft className="w-5 h-5 text-gray-600" />
               </button>
-
-              {/* Numéros de pages */}
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (number) => (
-                  <button
-                    key={number}
-                    onClick={() => paginate(number)}
-                    className={`
-                                w-10 h-10 rounded-lg font-bold text-sm transition-all
-                                ${
-                                  currentPage === number
-                                    ? "bg-primary text-white shadow-lg shadow-primary/30"
-                                    : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
-                                }
-                            `}
-                  >
-                    {number}
-                  </button>
-                )
-              )}
-
-              {/* Bouton Suivant */}
+              <span className="text-sm font-medium text-gray-600">
+                Page {currentPage} / {totalPages}
+              </span>
               <button
                 onClick={() => paginate(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <ChevronRight className="w-5 h-5 text-gray-600" />
               </button>
@@ -574,31 +609,19 @@ export default function AgencesPage() {
           )}
         </div>
 
-        {/* COLONNE DROITE : CARTE (Fixe) */}
-        <div className="hidden lg:block w-[45%] xl:w-[50%] bg-gray-200 h-[calc(100vh-140px)] sticky top-[140px] relative">
-          <div className="absolute inset-0 bg-[url('https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/15.2, -4.2, 6, 0/1000x1000?access_token=YOUR_TOKEN')] bg-cover bg-center opacity-50 grayscale hover:grayscale-0 transition-all duration-700">
-            <div className="w-full h-full bg-blue-50 relative overflow-hidden">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <span className="text-4xl font-bold text-gray-300 select-none">
-                  CARTE INTERACTIVE
-                </span>
-              </div>
-              {/* Pins décoratifs */}
-              <div className="absolute top-1/3 left-1/4 w-8 h-8 bg-primary rounded-full border-4 border-white shadow-xl flex items-center justify-center text-white animate-bounce">
-                <MapPin className="w-4 h-4" />
-              </div>
-              <div className="absolute top-2/3 right-1/3 w-8 h-8 bg-secondary rounded-full border-4 border-white shadow-xl flex items-center justify-center text-white">
-                <MapPin className="w-4 h-4" />
-              </div>
-            </div>
-          </div>
+        {/* CARTE INTERACTIVE GOOGLE MAPS */}
+        <div className="hidden lg:block w-[45%] xl:w-[50%] h-[calc(100vh-140px)] sticky top-[140px] relative">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m12!1m8!1m3!1d127324.08840210747!2d15.2531433!3d-4.2440461!3m2!1i1024!2i768!4f13.1!2m1!1socean%20du%20nord!5e0!3m2!1sfr!2scg!4v1767629807403!5m2!1sfr!2scg"
+            className="w-full h-full grayscale hover:grayscale-0"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
 
-          <div className="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur rounded-xl p-4 shadow-lg border border-gray-200">
-            <p className="text-sm font-bold text-gray-800">
-              Explorez les agences ({filteredAgencies.length})
-            </p>
-            <p className="text-xs text-gray-500">
-              Page {currentPage} sur {totalPages}
+          <div className="absolute bottom-4 left-4 right-4 bg-white rounded-lg p-4 shadow-lg">
+            <p className="text-sm text-gray-700 font-medium">
+              Explorez les agences Ocean du Nord sur la carte
             </p>
           </div>
         </div>
