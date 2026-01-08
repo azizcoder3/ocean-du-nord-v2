@@ -44,7 +44,7 @@ export default function Features() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {FEATURES.map((item, idx) => (
                 <div key={idx} className="flex gap-4">
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                       <item.icon className="w-6 h-6" />
                     </div>
@@ -61,7 +61,7 @@ export default function Features() {
           </div>
 
           {/* Partie Droite : Image/Vidéo */}
-          <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
+          <div className="relative h-125 rounded-3xl overflow-hidden shadow-2xl">
             <Image
               src="/images/bus-03.webp"
               alt="Confort Océan du Nord"
@@ -69,7 +69,7 @@ export default function Features() {
               className="object-cover"
             />
             {/* Overlay dégradé */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-8">
+            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent flex items-end p-8">
               <div className="text-white">
                 <p className="font-bold text-lg">Le transport N°1 au Congo</p>
                 <p className="text-sm text-gray-300">

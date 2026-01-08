@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Loading() {
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-white">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center overflow-hidden bg-white">
       {/* 1. IMAGE D'ARRIÈRE-PLAN (Bus Flouté) */}
       <div className="absolute inset-0 z-0">
         <Image
