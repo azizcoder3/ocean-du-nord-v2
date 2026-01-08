@@ -1,8 +1,7 @@
+// app/admin/trajets/page.tsx
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import {
-  Calendar,
-} from "lucide-react";
+import { Calendar } from "lucide-react";
 import TripsTable from "./TripsTable";
 
 export default async function AdminTrajetsPage() {
@@ -11,6 +10,9 @@ export default async function AdminTrajetsPage() {
     include: {
       route: true,
       bus: true,
+      _count: {
+        select: { bookings: true }, // ✅ Récupère le nombre de billets vendus
+      },
     },
     orderBy: { date: "asc" },
   });

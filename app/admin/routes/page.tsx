@@ -1,3 +1,4 @@
+// app/admin/routes/page.tsx
 import prisma from "@/lib/prisma";
 import RouteTable from "./RouteTable";
 import AddRouteForm from "./AddRouteForm";
@@ -5,7 +6,7 @@ import AddRouteForm from "./AddRouteForm";
 export default async function AdminRoutesPage() {
   // Récupérer les lignes depuis la DB
   const routes = await prisma.route.findMany({
-    orderBy: { toCity: "asc" }
+    orderBy: { toCity: "asc" },
   });
 
   return (
@@ -15,7 +16,8 @@ export default async function AdminRoutesPage() {
           Gestion des Lignes (Destinations)
         </h1>
         <div className="bg-primary/10 text-primary px-4 py-2 rounded-lg text-sm font-bold">
-          {routes.length} {routes.length === 1 ? "ligne" : "lignes"} active{routes.length > 1 ? "s" : ""}
+          {routes.length} {routes.length === 1 ? "ligne" : "lignes"} active
+          {routes.length > 1 ? "s" : ""}
         </div>
       </div>
 

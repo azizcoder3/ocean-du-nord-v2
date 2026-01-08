@@ -1,62 +1,47 @@
 // app/api/trips/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { Prisma } from "@/app/generated/prisma/client";
 
 export async function GET(request: Request) {
   try {
-    // 1. Récupérer les paramètres de l'URL
     const { searchParams } = new URL(request.url);
-    const from = searchParams.get("from")?.trim(); // ✅ Ajout de .trim()
-    const to = searchParams.get("to")?.trim(); // ✅ Ajout de .trim()
+    const from = searchParams.get("from")?.trim();
+    const to = searchParams.get("to")?.trim();
     const dateStr = searchParams.get("date");
 
-    console.log("🔍 Recherche reçue:", { from, to, dateStr });
-
-    if (!from || !to || !dateStr) {
-      return NextResponse.json(
-        { error: "Paramètres manquants (from, to, date requis)" },
-        { status: 400 }
-      );
+    // 1. Validation : Seule la date est vraiment obligatoire désormais
+    if (!dateStr) {
+      return NextResponse.json({ error: "Date requise" }, { status: 400 });
     }
 
-    // 2. CORRECTION CRUCIALE : Calculer l'intervalle de toute la journée
-    // ✅ Ne plus forcer UTC avec "Z", utiliser la date locale
-    const searchDate = new Date(dateStr + "T00:00:00");
-
-    // ✅ Créer startOfDay et endOfDay sans UTC
+    // 2. Gestion des Dates (Votre logique était bonne, on la garde)
+    const searchDate = new Date(dateStr);
     const startOfDay = new Date(searchDate);
-    startOfDay.setHours(0, 0, 0, 0);
+    startOfDay.setHours(-1, 0, 0, 0);
 
     const endOfDay = new Date(searchDate);
-    endOfDay.setHours(23, 59, 59, 999);
+    endOfDay.setHours(22, 59, 59, 999);
 
-    console.log("📅 Plage de recherche:", {
-      startOfDay: startOfDay.toISOString(),
-      endOfDay: endOfDay.toISOString(),
-      localStart: startOfDay.toLocaleString("fr-FR"),
-      localEnd: endOfDay.toLocaleString("fr-FR"),
-    });
+    // 3. Construction dynamique du filtre "Route"
+    // Si 'from' ou 'to' sont vides, on ne filtre pas dessus.
+    const routeFilter: Prisma.RouteWhereInput = {};
 
-    // 3. Requête Prisma avec filtres corrigés
+    if (from) {
+      routeFilter.fromCity = { equals: from, mode: "insensitive" };
+    }
+    if (to) {
+      routeFilter.toCity = { equals: to, mode: "insensitive" };
+    }
+
+    // 4. Requête Prisma
     const trips = await prisma.trip.findMany({
       where: {
-        // ✅ Filtre de date : trouve tous les voyages dans les 24h
         date: {
           gte: startOfDay,
           lte: endOfDay,
         },
-        // ✅ Filtre des villes (insensible à la casse)
-        route: {
-          fromCity: {
-            equals: from,
-            mode: "insensitive",
-          },
-          toCity: {
-            equals: to,
-            mode: "insensitive",
-          },
-        },
-        // Seulement les voyages programmés
+        route: routeFilter, // Applique le filtre dynamique (vide = tous les trajets)
         status: "SCHEDULED",
       },
       include: {
@@ -73,18 +58,14 @@ export async function GET(request: Request) {
       },
     });
 
-    console.log(`✅ ${trips.length} voyage(s) trouvé(s)`);
-
-    // 4. Formater les données pour le Frontend
+    // 5. Formatage des données (Identique à votre code existant)
     const formattedTrips = trips.map((trip) => {
-      // Calculer les places restantes
       const seatsTaken = trip.bookings.reduce(
         (acc, booking) => acc + booking.passengers.length,
         0
       );
       const seatsAvailable = trip.bus.capacity - seatsTaken;
 
-      // Calculer l'heure d'arrivée approximative
       const departureDate = new Date(trip.date);
       const durationParts = trip.route.duration.match(/(\d+)h(\d+)?/);
       const arrivalDate = new Date(departureDate);
@@ -101,10 +82,12 @@ export async function GET(request: Request) {
         departureTime: departureDate.toLocaleTimeString("fr-FR", {
           hour: "2-digit",
           minute: "2-digit",
+          timeZone: "Africa/Brazzaville",
         }),
         arrivalTime: arrivalDate.toLocaleTimeString("fr-FR", {
           hour: "2-digit",
           minute: "2-digit",
+          timeZone: "Africa/Brazzaville",
         }),
         from: trip.route.fromCity,
         to: trip.route.toCity,

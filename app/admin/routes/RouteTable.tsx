@@ -1,3 +1,4 @@
+// app/admin/routes/RouteTable.tsx
 "use client";
 
 import { useState } from "react";

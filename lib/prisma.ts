@@ -1,34 +1,27 @@
-// // lib/prisma.ts
-// import { PrismaClient } from "@prisma/client";
-
-// // Aucune option compliquée ici
-// const prisma = new PrismaClient();
-
-// const globalForPrisma = global as unknown as { prisma: PrismaClient };
-// if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
-
-// export default prisma;
-
 // lib/prisma.ts
-import { PrismaClient } from "@/app/generated/prisma/client";
+import { PrismaClient } from "@/app/generated/prisma/client"; // ou @prisma/client selon votre génération
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 
-// 1. On crée un pool de connexions robuste
 const connectionString = process.env.DATABASE_URL!;
 
 const pool = new Pool({
   connectionString,
-  max: 10, // Limite le nombre de connexions simultanées pour éviter de saturer Supabase
-  idleTimeoutMillis: 30000, // Ferme les connexions inactives après 30s
-  connectionTimeoutMillis: 5000, // Temps d'attente max pour une connexion
+  max: 10,
+  idleTimeoutMillis: 30000,
+  // 🔴 CORRECTION ICI : On passe de 5000 (5s) à 60000 (60s)
+  connectionTimeoutMillis: 60000,
 });
 
 const prismaClientSingleton = () => {
   const adapter = new PrismaPg(pool);
   return new PrismaClient({
     adapter,
-    log: ["error", "warn"], // On réduit les logs pour la performance
+    // En développement, on garde les logs pour voir ce qui se passe
+    log:
+      process.env.NODE_ENV === "development"
+        ? ["error", "warn", "query"]
+        : ["error"],
   });
 };
 
@@ -43,25 +36,3 @@ export default prisma;
 if (process.env.NODE_ENV !== "production") {
   globalThis.prismaGlobal = prisma;
 }
-
-// // import { PrismaClient } from "@/app/generated/prisma/client";
-// // import { PrismaPg } from "@prisma/adapter-pg";
-
-// // const adapter = new PrismaPg({
-// //   connectionString: process.env.DATABASE_URL!,
-// // });
-
-// // const prismaClientSingleton = () => {
-// //   return new PrismaClient({
-// //     adapter,
-// //   });
-// // };
-// // declare const globalThis: {
-// //   prismaGlobal: ReturnType<typeof prismaClientSingleton>;
-// // } & typeof global;
-// // const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
-
-// // export default prisma;
-// // if (process.env.NODE_ENV !== "production") {
-// //   globalThis.prismaGlobal = prisma;
-// // }

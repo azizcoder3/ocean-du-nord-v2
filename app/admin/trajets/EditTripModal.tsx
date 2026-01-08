@@ -1,3 +1,4 @@
+//app/admin/trajets/EditTripModal.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -36,7 +37,13 @@ interface EditTripModalProps {
   onSave: (id: string, data: { date: Date; busId: string }) => Promise<void>;
 }
 
-export default function EditTripModal({ isOpen, onClose, trip, buses, onSave }: EditTripModalProps) {
+export default function EditTripModal({
+  isOpen,
+  onClose,
+  trip,
+  buses,
+  onSave,
+}: EditTripModalProps) {
   const [formData, setFormData] = useState({
     date: "",
     busId: "",
@@ -45,9 +52,14 @@ export default function EditTripModal({ isOpen, onClose, trip, buses, onSave }: 
 
   useEffect(() => {
     if (trip) {
-      // Format date for datetime-local input
       const date = new Date(trip.date);
-      const formattedDate = date.toISOString().slice(0, 16);
+
+      // Correction du décalage horaire pour l'affichage local (Congo UTC+1)
+      // On récupère le décalage en minutes (ex: -60 pour le Congo) et on l'ajuste
+      const offset = date.getTimezoneOffset() * 60000; // décalage en millisecondes
+      const localDate = new Date(date.getTime() - offset);
+      const formattedDate = localDate.toISOString().slice(0, 16);
+
       setFormData({
         date: formattedDate,
         busId: trip.busId,
@@ -63,7 +75,7 @@ export default function EditTripModal({ isOpen, onClose, trip, buses, onSave }: 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!canModify) return;
-    
+
     setIsLoading(true);
     try {
       await onSave(trip.id, {
@@ -78,12 +90,20 @@ export default function EditTripModal({ isOpen, onClose, trip, buses, onSave }: 
     }
   };
 
+  // Récupérez la date actuelle au format input
+  const now = new Date();
+  const minDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 16);
+
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-scale-in">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-bold text-gray-900">Modifier le voyage</h3>
+            <h3 className="text-xl font-bold text-gray-900">
+              Modifier le voyage
+            </h3>
             <button
               onClick={onClose}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -96,30 +116,39 @@ export default function EditTripModal({ isOpen, onClose, trip, buses, onSave }: 
           {/* Trip Info */}
           <div className="bg-gray-50 rounded-xl p-4 mb-6">
             <div className="flex items-center gap-2 text-sm text-gray-600">
-              <span className="font-bold text-gray-900">{trip.route.fromCity}</span>
+              <span className="font-bold text-gray-900">
+                {trip.route.fromCity}
+              </span>
               <span className="text-gray-400">➔</span>
-              <span className="font-bold text-gray-900">{trip.route.toCity}</span>
+              <span className="font-bold text-gray-900">
+                {trip.route.toCity}
+              </span>
             </div>
           </div>
 
           {!canModify && (
             <div className="bg-yellow-50 border border-yellow-200 text-yellow-700 p-4 rounded-xl mb-6 text-sm">
-              <strong>Attention:</strong> Ce voyage est déjà en cours ou terminé. Vous ne pouvez plus modifier le bus ou l&apos;heure de départ.
+              <strong>Attention:</strong> Ce voyage est déjà en cours ou
+              terminé. Vous ne pouvez plus modifier le bus ou l&apos;heure de
+              départ.
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Date et Heure */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1 items-center gap-2">
                 <Calendar className="w-4 h-4 text-primary" />
                 Date et Heure de départ
               </label>
               <input
                 type="datetime-local"
                 required
+                min={minDate} // ✅ Empêche de sélectionner une date passée
                 value={formData.date}
-                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, date: e.target.value })
+                }
                 className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={isLoading || !canModify}
               />
@@ -127,14 +156,16 @@ export default function EditTripModal({ isOpen, onClose, trip, buses, onSave }: 
 
             {/* Bus */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1 items-center gap-2">
                 <Bus className="w-4 h-4 text-primary" />
                 Bus affecté
               </label>
               <select
                 required
                 value={formData.busId}
-                onChange={(e) => setFormData({ ...formData, busId: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, busId: e.target.value })
+                }
                 className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={isLoading || !canModify}
               >

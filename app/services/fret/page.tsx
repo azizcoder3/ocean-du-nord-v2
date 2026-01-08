@@ -97,15 +97,16 @@ export default function FretPage() {
   return (
     <main className="min-h-screen bg-gray-50 pt-20">
       {/* Hero Service */}
-      <div className="relative bg-gray-900 py-20 overflow-hidden">
+      <div className="relative h-[70vh] min-h-125">
         <Image
-          src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop" // Image cartons/entrepôt
+          src="/images/fret-bg-hero.webp"
           alt="Fond Fret"
           fill
-          className="object-cover opacity-30"
+          className="object-cover object-[center_30%]"
         />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div className="inline-flex items-center justify-center p-3 bg-orange-500 rounded-full mb-6 text-white shadow-lg">
+        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white px-4 sm:px-6 lg:px-8">
+          <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-full mb-6 backdrop-blur-sm">
             <Package className="w-8 h-8" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -211,35 +212,35 @@ export default function FretPage() {
 
           <div className="bg-orange-50 rounded-xl p-6 border-2 border-orange-100">
             <div className="flex items-start gap-4">
-              <AlertCircle className="w-6 h-6 text-orange-600 flex-shrink-0 mt-1" />
+              <AlertCircle className="w-6 h-6 text-orange-600 shrink-0 mt-1" />
               <div>
                 <h3 className="font-bold text-lg text-gray-900 mb-2">
                   Informations importantes sur la tarification
                 </h3>
                 <ul className="space-y-2 text-gray-700">
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-5 h-5 text-orange-600 shrink-0 mt-0.5" />
                     <span>
                       Le poids volumétrique peut s&apos;appliquer pour les colis
                       encombrants (longueur × largeur × hauteur ÷ 5000)
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-5 h-5 text-orange-600 shrink-0 mt-0.5" />
                     <span>
                       Emballage fragile disponible moyennant un supplément de
                       500 FCFA
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-5 h-5 text-orange-600 shrink-0 mt-0.5" />
                     <span>
                       Assurance optionnelle disponible : 2% de la valeur
                       déclarée (minimum 500 FCFA)
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-5 h-5 text-orange-600 shrink-0 mt-0.5" />
                     <span>
                       Tarifs dégressifs pour les professionnels et envois
                       réguliers
@@ -266,7 +267,7 @@ export default function FretPage() {
                 >
                   <div className="flex items-start gap-4">
                     <div
-                      className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
                         colorClasses[type.color]
                       }`}
                     >
@@ -285,7 +286,7 @@ export default function FretPage() {
 
             <div className="mt-6 bg-red-50 rounded-xl p-6 border-2 border-red-100">
               <div className="flex items-start gap-3">
-                <Shield className="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
+                <Shield className="w-6 h-6 text-red-600 shrink-0 mt-1" />
                 <div>
                   <h3 className="font-bold text-gray-900 mb-2">
                     Articles interdits
@@ -311,7 +312,7 @@ export default function FretPage() {
                 <div key={index} className="relative">
                   <div className="flex gap-4">
                     <div className="flex flex-col items-center">
-                      <div className="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-lg flex-shrink-0">
+                      <div className="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-lg shrink-0">
                         {step.etape}
                       </div>
                       {index < processus.length - 1 && (
@@ -349,7 +350,7 @@ export default function FretPage() {
         </div>
 
         {/* Section Conseils d'emballage */}
-        <div className="bg-gradient-to-br from-emerald-700 to-emerald-900 rounded-3xl p-8 md:p-12 text-white">
+        <div className="bg-linear-to-br from-emerald-700 to-emerald-900 rounded-3xl p-8 md:p-12 text-white">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold mb-6 text-center">
               Conseils pour un Envoi Réussi

@@ -1,9 +1,15 @@
+// app/admin/trajets/actions.ts
 "use server";
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-export type TripStatus = "SCHEDULED" | "BOARDING" | "ON_ROAD" | "COMPLETED" | "CANCELLED";
+export type TripStatus =
+  | "SCHEDULED"
+  | "BOARDING"
+  | "ON_ROAD"
+  | "COMPLETED"
+  | "CANCELLED";
 
 export async function deleteTrip(id: string) {
   try {
@@ -12,7 +18,9 @@ export async function deleteTrip(id: string) {
     return { success: true };
   } catch (error) {
     console.error("Erreur lors de la suppression du voyage:", error);
-    throw new Error("Ce voyage ne peut pas être supprimé car il contient des réservations payées.");
+    throw new Error(
+      "Ce voyage ne peut pas être supprimé car il contient des réservations payées."
+    );
   }
 }
 
@@ -20,7 +28,7 @@ export async function updateTripStatus(id: string, status: TripStatus) {
   try {
     await prisma.trip.update({
       where: { id },
-      data: { status }
+      data: { status },
     });
     revalidatePath("/admin/trajets");
     return { success: true };
@@ -30,14 +38,17 @@ export async function updateTripStatus(id: string, status: TripStatus) {
   }
 }
 
-export async function updateTrip(id: string, data: { date: Date; busId: string }) {
+export async function updateTrip(
+  id: string,
+  data: { date: Date; busId: string }
+) {
   try {
     await prisma.trip.update({
       where: { id },
       data: {
         date: data.date,
-        busId: data.busId
-      }
+        busId: data.busId,
+      },
     });
     revalidatePath("/admin/trajets");
     return { success: true };

@@ -67,15 +67,15 @@ export default function CourrierPage() {
   return (
     <main className="min-h-screen bg-gray-50 pt-20">
       {/* Hero Banner */}
-      <div className="relative h-[30vh] min-h-[500px]">
+      <div className="relative h-[40vh] min-h-125">
         <Image
-          src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop"
+          src="/images/courrier.webp"
           alt="Service Courrier"
           fill
-          className="object-cover"
+          className="object-cover object-[center_30%]"
           priority
         />
-        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="absolute inset-0 bg-black/40"></div>
         <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white px-4 sm:px-6 lg:px-8">
           <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-full mb-6 backdrop-blur-sm">
             <Mail className="w-8 h-8" />
@@ -98,7 +98,7 @@ export default function CourrierPage() {
           </h2>
           <div className="space-y-6">
             <div className="flex gap-4">
-              <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 flex-shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
                 <MapPin className="w-6 h-6" />
               </div>
               <div>
@@ -112,7 +112,7 @@ export default function CourrierPage() {
               </div>
             </div>
             <div className="flex gap-4">
-              <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center text-green-600 flex-shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center text-green-600 shrink-0">
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <div>
@@ -126,7 +126,7 @@ export default function CourrierPage() {
               </div>
             </div>
             <div className="flex gap-4">
-              <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600 flex-shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600 shrink-0">
                 <Clock className="w-6 h-6" />
               </div>
               <div>
@@ -190,7 +190,7 @@ export default function CourrierPage() {
 
           <div className="bg-emerald-50 rounded-xl p-8 border-2 border-emerald-100">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 rounded-full bg-emerald-600 flex items-center justify-center shrink-0">
                 <FileText className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -238,7 +238,7 @@ export default function CourrierPage() {
               <div className="space-y-6">
                 {avantages.map((avantage, index) => (
                   <div key={index} className="flex gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 flex-shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0">
                       {avantage.icon}
                     </div>
                     <div>

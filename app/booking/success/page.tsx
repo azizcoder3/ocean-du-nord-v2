@@ -1,3 +1,4 @@
+//  app/booking/success/page.tsx
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
@@ -7,7 +8,6 @@ import Image from "next/image";
 import {
   CheckCircle,
   Home,
-  QrCode,
   Calendar,
   Clock,
   Bus,
@@ -17,6 +17,13 @@ import {
   Info,
 } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
+import dynamic from "next/dynamic";
+
+// On importe dynamiquement car react-pdf ne marche que côté client
+const DownloadTicketButton = dynamic(
+  () => import("@/components/pdf/DownloadTicketButton"),
+  { ssr: false }
+);
 
 // --- INTERFACES ---
 interface Passenger {
@@ -92,7 +99,7 @@ function SuccessContent() {
   if (loading)
     return (
       <div className="text-center py-20">
-        <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-[#064e3b]" />
+        <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-primary" />
         <p className="text-gray-500 font-medium italic">
           Chargement de votre billet...
         </p>
@@ -107,12 +114,40 @@ function SuccessContent() {
         <p className="text-gray-600 mb-6">{error || "Billet introuvable."}</p>
         <Link
           href="/"
-          className="px-8 py-3 bg-[#064e3b] text-white rounded-xl font-bold"
+          className="px-8 py-3 bg-primary text-white rounded-xl font-bold"
         >
           Retour à l&apos;accueil
         </Link>
       </div>
     );
+
+  const qrData = {
+    reference: booking.reference,
+    trajet: `${booking.trip.route.fromCity} → ${booking.trip.route.toCity}`,
+    date: new Date(booking.trip.date).toLocaleDateString("fr-FR", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }),
+    heure: new Date(booking.trip.date).toLocaleTimeString("fr-FR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
+    vehicule: booking.trip.bus.name,
+    passagers: booking.passengers.map((p) => ({
+      nom: p.fullName,
+      siege: p.seatNumber,
+      type: p.type,
+    })),
+    prix: `${booking.totalPrice
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, " ")} FCFA`,
+    paiement: booking.paymentMethod || "Mobile Money",
+    compagnie: "OCÉAN DU NORD",
+  };
+
+  const qrString = JSON.stringify(qrData, null, 2);
 
   return (
     <div className="max-w-2xl w-full px-4 animate-fade-in-up">
@@ -145,7 +180,7 @@ function SuccessContent() {
       </div>
 
       {/* LE BILLET ÉLECTRONIQUE (Optimisé pour Capture d'écran) */}
-      <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden relative border border-gray-100">
+      <div className="bg-white rounded-4xl shadow-2xl overflow-hidden relative border border-gray-100">
         {/* HEADER */}
         <div
           className="p-6 text-white flex justify-between items-center"
@@ -293,12 +328,12 @@ function SuccessContent() {
                   level={"H"} // Haute protection contre les erreurs
                   marginSize={0}
                 /> */}
+                {/* En voie  */}
                 <QRCodeSVG
-                  value={booking.reference} // On n'envoie QUE la référence, pas d'URL
+                  value={qrString} // ✅ Toutes les données encodées en JSON
                   size={120}
-                  level={"H"}
+                  level={"H"} // Correction d'erreur maximale
                   marginSize={0}
-                  // includeMargin={false}
                 />
               </div>
               <div>
@@ -326,6 +361,24 @@ function SuccessContent() {
           Scannez ce code ou présentez cette page à l&apos;agence
         </div>
       </div>
+
+      {/* BOUTONS D'ACTION */}
+      <div className="mt-10 flex flex-col md:flex-row items-center justify-center gap-4">
+        {/* BOUTON TÉLÉCHARGER PDF (NOUVEAU) */}
+        <DownloadTicketButton booking={booking} />
+
+        {/* BOUTON RETOUR ACCUEIL (EXISTANT) */}
+        <Link
+          href="/"
+          className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-bold text-gray-700 bg-white border-2 border-gray-100 hover:bg-gray-50 transition-all shadow-sm"
+        >
+          <Home className="w-5 h-5" /> Retour
+        </Link>
+      </div>
+
+      <p className="mt-6 text-center text-xs text-gray-400 italic max-w-sm mx-auto">
+        Conseil : Téléchargez le PDF pour avoir une copie officielle imprimable.
+      </p>
 
       {/* BOUTON RETOUR (Pas de PDF ici) */}
       <div className="mt-10 text-center">
