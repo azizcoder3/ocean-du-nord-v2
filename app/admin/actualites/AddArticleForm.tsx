@@ -1,6 +1,6 @@
 //app/admin/actualites/AddArticleForm.tsx
 "use client";
-
+import Image from "next/image";
 import { useState, useRef } from "react";
 import { Plus, ImageIcon, Loader2, X } from "lucide-react";
 import { toast } from "sonner";
@@ -256,7 +256,7 @@ export default function AddArticleForm() {
             </div>
           ) : (
             <div className="relative rounded-xl overflow-hidden border border-gray-200">
-              <img
+              <Image
                 src={imagePreview}
                 alt="Aperçu"
                 className="w-full h-48 object-cover"
@@ -283,7 +283,7 @@ export default function AddArticleForm() {
             onChange={(e) =>
               setFormData({ ...formData, content: e.target.value })
             }
-            className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-primary min-h-[150px]"
+            className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-primary min-h-37.5"
             disabled={isLoading || isUploading}
             placeholder="Contenu de l'article..."
           />

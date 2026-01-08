@@ -1,13 +1,5 @@
 import prisma from "@/lib/prisma";
-import {
-  Ticket,
-  Search,
-  User,
-  MapPin,
-  Calendar,
-  Banknote,
-  Tag,
-} from "lucide-react";
+import { Ticket, Search, Banknote, Tag } from "lucide-react";
 
 export default async function AdminReservationsPage() {
   // 1. Récupération des réservations avec toutes les relations

@@ -107,8 +107,8 @@ export default function ONCPage() {
     <main className="min-h-screen bg-gray-50 pt-20">
       {/* 1. HERO SECTION (Premium) */}
       <div className="relative bg-gray-900 py-24 overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-amber-500/20 rounded-full blur-[120px] -mr-40 -mt-40"></div>
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-teal-600/20 rounded-full blur-[100px] -ml-20 -mb-20"></div>
+        <div className="absolute top-0 right-0 w-150 h-150 bg-amber-500/20 rounded-full blur-[120px] -mr-40 -mt-40"></div>
+        <div className="absolute bottom-0 left-0 w-125 h-125 bg-teal-600/20 rounded-full blur-[100px] -ml-20 -mb-20"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-amber-400 font-bold text-sm mb-6 border border-white/10 backdrop-blur-sm">
@@ -116,7 +116,7 @@ export default function ONCPage() {
           </div>
           <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
             Le Club{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-200">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-yellow-200">
               ONC
             </span>
           </h1>
@@ -152,7 +152,7 @@ export default function ONCPage() {
               key={index}
               className="bg-white rounded-2xl p-6 shadow-lg text-center hover:shadow-xl transition-shadow"
             >
-              <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-3">
+              <div className="w-12 h-12 bg-linear-to-br from-teal-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-3">
                 <stat.icon className="w-6 h-6 text-white" />
               </div>
               <p className="text-2xl font-black text-gray-900 mb-1">
@@ -169,7 +169,7 @@ export default function ONCPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Carte Standard */}
           <div className="bg-white rounded-3xl p-1 shadow-xl hover:-translate-y-2 transition-transform duration-500">
-            <div className="bg-gradient-to-br from-blue-900 to-blue-700 h-48 rounded-t-[20px] p-6 relative overflow-hidden flex flex-col justify-between text-white">
+            <div className="bg-linear-to-br from-blue-900 to-blue-700 h-48 rounded-t-[20px] p-6 relative overflow-hidden flex flex-col justify-between text-white">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
               <div className="flex justify-between items-start">
                 <span className="font-bold tracking-widest text-sm opacity-80">
@@ -185,11 +185,11 @@ export default function ONCPage() {
             <div className="p-8">
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 text-sm text-gray-600">
-                  <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                  <Check className="w-5 h-5 text-blue-600 shrink-0" />
                   <span>Accès aux offres flash</span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-gray-600">
-                  <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                  <Check className="w-5 h-5 text-blue-600 shrink-0" />
                   <span>Gestion des billets en ligne</span>
                 </li>
               </ul>
@@ -198,7 +198,7 @@ export default function ONCPage() {
 
           {/* Carte Silver */}
           <div className="bg-white rounded-3xl p-1 shadow-xl hover:-translate-y-2 transition-transform duration-500 scale-105 z-10">
-            <div className="bg-gradient-to-br from-gray-400 to-gray-600 h-48 rounded-t-[20px] p-6 relative overflow-hidden flex flex-col justify-between text-white shadow-inner">
+            <div className="bg-linear-to-br from-gray-400 to-gray-600 h-48 rounded-t-[20px] p-6 relative overflow-hidden flex flex-col justify-between text-white shadow-inner">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -mr-10 -mt-10"></div>
               <div className="flex justify-between items-start">
                 <span className="font-bold tracking-widest text-sm opacity-90 text-gray-100">
@@ -219,17 +219,17 @@ export default function ONCPage() {
               </div>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 text-sm text-gray-600">
-                  <Check className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                  <Check className="w-5 h-5 text-gray-500 shrink-0" />
                   <span>
                     <strong>5% de réduction</strong> sur tous les trajets
                   </span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-gray-600">
-                  <Check className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                  <Check className="w-5 h-5 text-gray-500 shrink-0" />
                   <span>Bagage supplémentaire (10kg)</span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-gray-600">
-                  <Check className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                  <Check className="w-5 h-5 text-gray-500 shrink-0" />
                   <span>Modification de billet gratuite</span>
                 </li>
               </ul>
@@ -238,7 +238,7 @@ export default function ONCPage() {
 
           {/* Carte Gold */}
           <div className="bg-white rounded-3xl p-1 shadow-xl hover:-translate-y-2 transition-transform duration-500">
-            <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 h-48 rounded-t-[20px] p-6 relative overflow-hidden flex flex-col justify-between text-white">
+            <div className="bg-linear-to-br from-yellow-400 to-yellow-600 h-48 rounded-t-[20px] p-6 relative overflow-hidden flex flex-col justify-between text-white">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -mr-10 -mt-10"></div>
               <div className="flex justify-between items-start">
                 <span className="font-bold tracking-widest text-sm opacity-90 text-yellow-100">
@@ -254,21 +254,21 @@ export default function ONCPage() {
             <div className="p-8">
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 text-sm text-gray-600">
-                  <Check className="w-5 h-5 text-amber-500 flex-shrink-0" />
+                  <Check className="w-5 h-5 text-amber-500 shrink-0" />
                   <span>
                     <strong>10% de réduction</strong> à vie
                   </span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-gray-600">
-                  <Check className="w-5 h-5 text-amber-500 flex-shrink-0" />
+                  <Check className="w-5 h-5 text-amber-500 shrink-0" />
                   <span>Accès Salon VIP en gare</span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-gray-600">
-                  <Check className="w-5 h-5 text-amber-500 flex-shrink-0" />
+                  <Check className="w-5 h-5 text-amber-500 shrink-0" />
                   <span>Embarquement prioritaire</span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-gray-600">
-                  <Check className="w-5 h-5 text-amber-500 flex-shrink-0" />
+                  <Check className="w-5 h-5 text-amber-500 shrink-0" />
                   <span>Service client dédié 24/7</span>
                 </li>
               </ul>
@@ -332,7 +332,7 @@ export default function ONCPage() {
       </div>
 
       {/* NOUVELLE SECTION: Catalogue de récompenses */}
-      <div className="bg-gradient-to-br from-teal-50 to-white py-20">
+      <div className="bg-linear-to-br from-teal-50 to-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">

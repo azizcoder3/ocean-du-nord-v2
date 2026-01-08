@@ -30,21 +30,21 @@ export default function LoginPage() {
         setIsLoading(false);
       } else {
         toast.success("Connexion réussie !");
-        
+
         // --- LA MAGIE EST ICI ---
         // 1. On force Next.js à rafraîchir tous les composants (Header, etc.)
-        router.refresh(); 
+        router.refresh();
 
         // 2. On attend un tout petit peu que la session soit enregistrée
         setTimeout(async () => {
           // 3. On vérifie le rôle pour rediriger au bon endroit
-          // On peut appeler une petite route API ou simplement rediriger vers 
-          // une page intermédiaire. Le plus simple : rediriger vers "/" 
+          // On peut appeler une petite route API ou simplement rediriger vers
+          // une page intermédiaire. Le plus simple : rediriger vers "/"
           // et laisser le bouton Admin du header apparaître.
-          
+
           // Si tu veux rediriger l'ADMIN automatiquement vers /admin :
           // Il est préférable de rediriger vers l'accueil pour rafraîchir le Header
-          router.push("/"); 
+          router.push("/");
         }, 500);
       }
     } catch {
@@ -64,7 +64,7 @@ export default function LoginPage() {
           className="object-cover opacity-80 mix-blend-overlay"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent flex flex-col justify-end p-16 text-white">
+        <div className="absolute inset-0 bg-linear-to-t from-primary/90 to-transparent flex flex-col justify-end p-16 text-white">
           <h2 className="text-4xl font-bold mb-4">
             Voyagez plus, <br />
             payez moins.

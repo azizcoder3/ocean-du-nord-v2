@@ -3,7 +3,6 @@ import {
   Facebook,
   Twitter,
   Instagram,
-  Youtube,
   MapPin,
   Phone,
   Mail,
@@ -100,7 +99,7 @@ export default function Footer() {
             <h3 className="text-white font-bold text-lg mb-6">Nos Agences</h3>
             <ul className="space-y-4 text-sm">
               <li className="flex gap-3">
-                <MapPin className="w-5 h-5 text-secondary flex-shrink-0" />
+                <MapPin className="w-5 h-5 text-secondary shrink-0" />
                 <span>
                   <strong className="text-white block">
                     Direction Générale
@@ -111,7 +110,7 @@ export default function Footer() {
                 </span>
               </li>
               <li className="flex gap-3">
-                <MapPin className="w-5 h-5 text-secondary flex-shrink-0" />
+                <MapPin className="w-5 h-5 text-secondary shrink-0" />
                 <span>
                   <strong className="text-white block">
                     Agence Pointe-Noire
@@ -120,7 +119,7 @@ export default function Footer() {
                 </span>
               </li>
               <li className="flex gap-3">
-                <MapPin className="w-5 h-5 text-secondary flex-shrink-0" />
+                <MapPin className="w-5 h-5 text-secondary shrink-0" />
                 <span>
                   <strong className="text-white block">Agence Dolisie</strong>
                   Centre-ville, face Gare CFCO

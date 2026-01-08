@@ -417,7 +417,7 @@ export default function AgencesPage() {
 
             <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
               {/* Recherche */}
-              <div className="relative group min-w-[280px]">
+              <div className="relative group min-w-70">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors" />
                 <input
                   type="text"
@@ -544,7 +544,7 @@ export default function AgencesPage() {
 
                   <div className="space-y-3 text-sm text-gray-600 mb-6">
                     <div className="flex gap-2">
-                      <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                      <MapPin className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
                       <span className="line-clamp-2">
                         {agency.address} -{" "}
                         <strong className="text-gray-900">{agency.city}</strong>
@@ -610,7 +610,7 @@ export default function AgencesPage() {
         </div>
 
         {/* CARTE INTERACTIVE GOOGLE MAPS */}
-        <div className="hidden lg:block w-[45%] xl:w-[50%] h-[calc(100vh-140px)] sticky top-[140px] relative">
+        <div className="hidden lg:block w-[45%] xl:w-[50%] h-[calc(100vh-140px)] sticky top-35 relative">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m12!1m8!1m3!1d127324.08840210747!2d15.2531433!3d-4.2440461!3m2!1i1024!2i768!4f13.1!2m1!1socean%20du%20nord!5e0!3m2!1sfr!2scg!4v1767629807403!5m2!1sfr!2scg"
             className="w-full h-full grayscale hover:grayscale-0"

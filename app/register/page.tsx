@@ -74,6 +74,7 @@ export default function RegisterPage() {
         }, 2000);
       }
     } catch (err) {
+      console.error("Erreur lors de l'inscription :", err);
       setError("Erreur de connexion au serveur.");
       setIsLoading(false);
     }
@@ -90,7 +91,7 @@ export default function RegisterPage() {
           className="object-cover opacity-80 mix-blend-overlay"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent flex flex-col justify-end p-16 text-white">
+        <div className="absolute inset-0 bg-linear-to-t from-primary/90 to-transparent flex flex-col justify-end p-16 text-white">
           <h2 className="text-4xl font-bold mb-4">Rejoignez le Club.</h2>
           <p className="text-lg text-primary-100 max-w-md">
             Inscrivez-vous dès maintenant pour bénéficier du programme de
@@ -126,7 +127,7 @@ export default function RegisterPage() {
           {/* MESSAGE ERREUR */}
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-600 rounded-xl flex items-center gap-3 text-sm font-medium animate-pulse">
-              <AlertCircle className="w-5 h-5 flex-shrink-0" />
+              <AlertCircle className="w-5 h-5 shrink-0" />
               {error}
             </div>
           )}

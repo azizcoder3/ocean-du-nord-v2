@@ -134,7 +134,7 @@ export default async function DestinationDetail({ params }: Props) {
   return (
     <main className="min-h-screen bg-gray-50 pb-20 pt-20">
       {/* HERO BANNER - Sans subtitle */}
-      <div className="relative h-[50vh] min-h-[400px]">
+      <div className="relative h-[50vh] min-h-100">
         <Image
           src={route.image || getImageForCity(route.toCity)}
           alt={`Voyage vers ${route.toCity}`}
@@ -217,7 +217,7 @@ export default async function DestinationDetail({ params }: Props) {
                     key={idx}
                     className="flex items-center gap-2 text-gray-600"
                   >
-                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-primary shrink-0" />
                     <span>{point}</span>
                   </li>
                 ))}

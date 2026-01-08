@@ -15,10 +15,18 @@ interface EditBusModalProps {
   isOpen: boolean;
   onClose: () => void;
   bus: Bus | null;
-  onSave: (id: string, data: { name: string; plateNumber: string; capacity: number; type: string }) => Promise<void>;
+  onSave: (
+    id: string,
+    data: { name: string; plateNumber: string; capacity: number; type: string }
+  ) => Promise<void>;
 }
 
-export default function EditBusModal({ isOpen, onClose, bus, onSave }: EditBusModalProps) {
+export default function EditBusModal({
+  isOpen,
+  onClose,
+  bus,
+  onSave,
+}: EditBusModalProps) {
   const [formData, setFormData] = useState({
     name: "",
     plateNumber: "",
@@ -54,7 +62,7 @@ export default function EditBusModal({ isOpen, onClose, bus, onSave }: EditBusMo
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-scale-in">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
@@ -77,7 +85,9 @@ export default function EditBusModal({ isOpen, onClose, bus, onSave }: EditBusMo
                 type="text"
                 required
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-primary"
                 disabled={isLoading}
               />
@@ -91,7 +101,9 @@ export default function EditBusModal({ isOpen, onClose, bus, onSave }: EditBusMo
                 type="text"
                 required
                 value={formData.plateNumber}
-                onChange={(e) => setFormData({ ...formData, plateNumber: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, plateNumber: e.target.value })
+                }
                 className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-primary"
                 disabled={isLoading}
               />
@@ -107,7 +119,12 @@ export default function EditBusModal({ isOpen, onClose, bus, onSave }: EditBusMo
                   required
                   min="1"
                   value={formData.capacity}
-                  onChange={(e) => setFormData({ ...formData, capacity: parseInt(e.target.value) || 0 })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      capacity: parseInt(e.target.value) || 0,
+                    })
+                  }
                   className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-primary"
                   disabled={isLoading}
                 />
@@ -118,7 +135,9 @@ export default function EditBusModal({ isOpen, onClose, bus, onSave }: EditBusMo
                 </label>
                 <select
                   value={formData.type}
-                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, type: e.target.value })
+                  }
                   className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-primary"
                   disabled={isLoading}
                 >
@@ -151,4 +170,3 @@ export default function EditBusModal({ isOpen, onClose, bus, onSave }: EditBusMo
     </div>
   );
 }
-

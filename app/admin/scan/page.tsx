@@ -106,6 +106,7 @@ export default function AdminScanPage() {
     }
 
     function onScanError(err: unknown) {
+      console.warn("Scan error:", err);
       // On ignore les erreurs de lecture silencieuses
     }
 

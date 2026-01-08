@@ -11,35 +11,42 @@ export default async function ActualitesPage() {
   });
 
   // Formater les articles pour correspondre à l'interface attendue
-  const formattedArticles = articles.map(article => ({
+  const formattedArticles = articles.map((article) => ({
     id: article.slug,
     title: article.title,
     category: article.category,
-    date: new Date(article.publishedAt).toLocaleDateString('fr-FR', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
+    date: new Date(article.publishedAt).toLocaleDateString("fr-FR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
     }),
-    image: article.image || "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop",
+    image:
+      article.image ||
+      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop",
     excerpt: article.content.substring(0, 100) + "...",
     isFeatured: article.isFeatured,
   }));
 
   // Récupérer l'article en vedette pour le Flash Info, ou le plus récent par défaut
-  const featuredArticle = articles.find(article => article.isFeatured) || articles[0];
-  const otherArticles = articles.filter(article => article.id !== featuredArticle?.id);
+  const featuredArticle =
+    articles.find((article) => article.isFeatured) || articles[0];
+  const otherArticles = articles.filter(
+    (article) => article.id !== featuredArticle?.id
+  );
 
   // Formater les autres articles pour la grille
-  const formattedOtherArticles = otherArticles.map(article => ({
+  const formattedOtherArticles = otherArticles.map((article) => ({
     id: article.slug,
     title: article.title,
     category: article.category,
-    date: new Date(article.publishedAt).toLocaleDateString('fr-FR', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
+    date: new Date(article.publishedAt).toLocaleDateString("fr-FR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
     }),
-    image: article.image || "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop",
+    image:
+      article.image ||
+      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop",
     excerpt: article.content.substring(0, 100) + "...",
     isFeatured: article.isFeatured,
   }));
@@ -65,11 +72,14 @@ export default async function ActualitesPage() {
         {/* 2. ARTICLE EN VEDETTE (Dynamique) */}
         {featuredArticle && (
           <div className="mb-16 animate-fade-in-up">
-            <div className="group relative rounded-3xl overflow-hidden shadow-xl bg-white grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
+            <div className="group relative rounded-3xl overflow-hidden shadow-xl bg-white grid grid-cols-1 lg:grid-cols-2 min-h-125">
               {/* Image */}
               <div className="relative h-64 lg:h-full overflow-hidden">
                 <Image
-                  src={featuredArticle.image || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2000&auto=format&fit=crop"}
+                  src={
+                    featuredArticle.image ||
+                    "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2000&auto=format&fit=crop"
+                  }
                   alt={featuredArticle.title}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -83,11 +93,15 @@ export default async function ActualitesPage() {
               <div className="p-8 lg:p-12 flex flex-col justify-center">
                 <div className="flex items-center gap-3 text-sm text-gray-500 mb-4">
                   <span className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" /> {new Date(featuredArticle.publishedAt).toLocaleDateString('fr-FR', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric'
-                    })}
+                    <Calendar className="w-4 h-4" />{" "}
+                    {new Date(featuredArticle.publishedAt).toLocaleDateString(
+                      "fr-FR",
+                      {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      }
+                    )}
                   </span>
                   <span className="w-1 h-1 rounded-full bg-gray-300"></span>
                   <span className="text-secondary font-bold uppercase">
@@ -100,7 +114,8 @@ export default async function ActualitesPage() {
                 </h2>
 
                 <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                  {featuredArticle.content.substring(0, 150)}{featuredArticle.content.length > 150 ? "..." : ""}
+                  {featuredArticle.content.substring(0, 150)}
+                  {featuredArticle.content.length > 150 ? "..." : ""}
                 </p>
 
                 <div className="flex flex-wrap gap-4">
@@ -116,7 +131,8 @@ export default async function ActualitesPage() {
                     href={`/actualites/${featuredArticle.slug}`}
                     className="inline-flex items-center gap-2 text-gray-600 font-bold hover:text-primary transition-colors py-3 px-4"
                   >
-                  Lire l&apos;article complet <ArrowRight className="w-5 h-5" />
+                    Lire l&apos;article complet{" "}
+                    <ArrowRight className="w-5 h-5" />
                   </Link>
                 </div>
               </div>

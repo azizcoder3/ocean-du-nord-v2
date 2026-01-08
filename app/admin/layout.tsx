@@ -1,7 +1,16 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { LayoutDashboard, Bus, Map, Ticket, Users, Home, Navigation, Route, Newspaper } from "lucide-react";
+import {
+  LayoutDashboard,
+  Bus,
+  Map,
+  Ticket,
+  Users,
+  Home,
+  Route,
+  Newspaper,
+} from "lucide-react";
 
 export default async function AdminLayout({
   children,
@@ -33,8 +42,11 @@ export default async function AdminLayout({
             <LayoutDashboard className="w-5 h-5 text-secondary" /> Tableau de
             bord
           </Link>
-          <Link href="/admin/routes" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors">
-              <Route className="w-5 h-5 text-gray-400" /> Gestion des Lignes
+          <Link
+            href="/admin/routes"
+            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors"
+          >
+            <Route className="w-5 h-5 text-gray-400" /> Gestion des Lignes
           </Link>
           <Link
             href="/admin/bus"

@@ -48,7 +48,7 @@ export default async function ArticleDetailPage({ params }: Props) {
   return (
     <main className="min-h-screen bg-white pt-20">
       {/* A. HERO IMAGE (En-tête de l'article) */}
-      <div className="relative h-[60vh] w-full min-h-[400px]">
+      <div className="relative h-[60vh] w-full min-h-100">
         <Image
           src={
             article.image ||
@@ -60,7 +60,7 @@ export default async function ArticleDetailPage({ params }: Props) {
           priority
         />
         {/* Overlay sombre pour la lisibilité du texte */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent"></div>
 
         <div className="absolute bottom-0 left-0 w-full p-6 md:p-16">
           <div className="max-w-4xl mx-auto animate-fade-in-up">

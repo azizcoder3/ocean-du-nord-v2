@@ -1,6 +1,6 @@
 //app/admin/actualites/EditArticleModal.tsx
 "use client";
-
+import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { X, ImageIcon, Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -153,7 +153,7 @@ export default function EditArticleModal({
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-scale-in">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
@@ -284,7 +284,7 @@ export default function EditArticleModal({
                 </div>
               ) : (
                 <div className="relative rounded-xl overflow-hidden border border-gray-200">
-                  <img
+                  <Image
                     src={imagePreview}
                     alt="Aperçu"
                     className="w-full h-48 object-cover"
@@ -311,7 +311,7 @@ export default function EditArticleModal({
                 onChange={(e) =>
                   setFormData({ ...formData, content: e.target.value })
                 }
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-primary min-h-[200px]"
+                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-primary min-h-50"
                 disabled={isLoading || isUploading}
                 placeholder="Contenu de l'article..."
               />
